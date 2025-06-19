@@ -1,0 +1,443 @@
+<!-- START: Clothify - Fully Responsive -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Clothify - Responsive Shop</title>
+  <style>
+    :root {
+      --bg: #fef6f9;
+      --text: #333;
+      --header-bg: #ffdde1;
+      --header-bg2: #ee9ca7;
+      --banner-bg: #d299c2;
+      --banner-bg2: #fef9d7;
+      --primary: #e19aa0;
+      --primary-hover: #d16f80;
+      --footer-bg: #a1c4fd;
+      --footer-bg2: #c2e9fb;
+      --card-bg: #fff;
+      --shadow: rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      scroll-behavior: smooth;
+      transition: all 0.3s ease;
+    }
+
+    header {
+      background: linear-gradient(to right, var(--header-bg), var(--header-bg2));
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background: #222;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      font-size: 14px;
+    }
+
+    .theme-select {
+      margin-top: 5px;
+      background: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    #cart-badge {
+      background: red;
+      color: white;
+      border-radius: 50%;
+      font-size: 12px;
+      padding: 2px 6px;
+      position: absolute;
+      top: -8px;
+      right: -12px;
+    }
+
+    .banner {
+      background: linear-gradient(to right, var(--banner-bg), var(--banner-bg2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      font-size: 28px;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .filter-btns {
+      text-align: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btns button {
+      padding: 8px 16px;
+      margin: 6px;
+      background: var(--primary);
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .filter-btns button:hover {
+      background: var(--primary-hover);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product {
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px var(--shadow);
+      text-align: center;
+      transition: transform 0.3s, opacity 0.5s;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .product.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .product img {
+      width: 100%;
+      height: auto;
+      max-height: 240px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .product:hover img {
+      transform: scale(1.05);
+    }
+
+    .product h3 {
+      margin: 10px 0 5px;
+      font-size: 18px;
+    }
+
+    .product p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .price {
+      margin: 10px 0;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .buy-btn {
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .buy-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    footer {
+      background: linear-gradient(to right, var(--footer-bg), var(--footer-bg2));
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      font-size: 14px;
+    }
+
+    #topBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      display: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .banner {
+        font-size: 22px;
+        padding: 30px 10px;
+      }
+
+      .section-title {
+        font-size: 22px;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav a {
+        font-size: 12px;
+      }
+
+      .theme-select {
+        width: 100%;
+        font-size: 13px;
+      }
+
+      .product h3 {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Clothify</h1>
+    <p>Colorful Style. Express Yourself.</p>
+  </header>
+
+  <nav>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Men</a>
+      <a href="#">Women</a>
+      <a href="#">Kids</a>
+      <a href="#">Contact</a>
+      <a href="#">Cart <span id="cart-badge">0</span></a>
+    </div>
+    <select id="themeSelector" class="theme-select" aria-label="Select Theme">
+      <option value="pastel">Pastel</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </nav>
+
+  <div class="banner">
+    Discover Fashion That Moves With You
+  </div>
+
+  <div class="container">
+    <h2 class="section-title">New Arrivals</h2>
+    <div class="filter-btns">
+      <button onclick="filterProducts('All')">All</button>
+      <button onclick="filterProducts('Men')">Men</button>
+      <button onclick="filterProducts('Women')">Women</button>
+      <button onclick="filterProducts('Kids')">Kids</button>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+
+  <footer>
+    &copy; 2025 Clothify. Built with ♥ by Anas.
+  </footer>
+
+  <button id="topBtn" aria-label="Scroll to top">↑ Top</button>
+
+  <script>
+    const products = [
+      { name: "Red Summer Tee", desc: "Breathable & soft", price: 599, category: "Men", image: "https://via.placeholder.com/300x250?text=Red+Tee" },
+      { name: "Classic Blue Jeans", desc: "Perfect fit for everyone", price: 1299, category: "Men", image: "https://via.placeholder.com/300x250?text=Blue+Jeans" },
+      { name: "Green Kurti", desc: "Festive & vibrant", price: 1199, category: "Women", image: "https://via.placeholder.com/300x250?text=Green+Kurti" },
+      { name: "Denim Jacket", desc: "Trendy unisex design", price: 1799, category: "Men", image: "https://via.placeholder.com/300x250?text=Denim+Jacket" },
+      { name: "Yellow Hoodie", desc: "Warm and cozy", price: 1499, category: "Kids", image: "https://via.placeholder.com/300x250?text=Yellow+Hoodie" },
+      { name: "Black Sneakers", desc: "Sleek all-rounder", price: 1999, category: "Men", image: "https://via.placeholder.com/300x250?text=Black+Sneakers" },
+      { name: "Premium Shirt Style", desc: "Classic design with modern fit", price: 1899, category: "Men", image: "https://via.placeholder.com/300x250?text=Premium+Shirt" }
+    ];
+
+    const productGrid = document.getElementById("productGrid");
+    const badge = document.getElementById("cart-badge");
+    let cartCount = 0;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.2 });
+
+    function renderProducts(category = "All") {
+      productGrid.innerHTML = '';
+      products
+        .filter(p => category === "All" || p.category === category)
+        .forEach(product => {
+          const div = document.createElement("div");
+          div.className = "product";
+          div.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.desc}</p>
+            <p class="price">₹${product.price}</p>
+            <button class="buy-btn">Buy Now</button>
+          `;
+          productGrid.appendChild(div);
+        });
+
+      setTimeout(() => {
+        document.querySelectorAll(".product").forEach(p => observer.observe(p));
+      }, 100);
+    }
+
+    function filterProducts(category) {
+      renderProducts(category);
+    }
+
+    document.addEventListener("click", e => {
+      if (e.target.classList.contains("buy-btn")) {
+        cartCount++;
+        badge.innerText = cartCount;
+        alert("Product added to cart!");
+      }
+    });
+
+    const themes = {
+      pastel: {
+        '--bg': '#fef6f9',
+        '--text': '#333',
+        '--header-bg': '#ffdde1',
+        '--header-bg2': '#ee9ca7',
+        '--banner-bg': '#d299c2',
+        '--banner-bg2': '#fef9d7',
+        '--primary': '#e19aa0',
+        '--primary-hover': '#d16f80',
+        '--footer-bg': '#a1c4fd',
+        '--footer-bg2': '#c2e9fb',
+        '--card-bg': '#fff',
+        '--shadow': 'rgba(0, 0, 0, 0.08)'
+      },
+      light: {
+        '--bg': '#ffffff',
+        '--text': '#222',
+        '--header-bg': '#ece9e6',
+        '--header-bg2': '#ffffff',
+        '--banner-bg': '#d9afd9',
+        '--banner-bg2': '#97d9e1',
+        '--primary': '#2196f3',
+        '--primary-hover': '#1976d2',
+        '--footer-bg': '#e0eafc',
+        '--footer-bg2': '#cfdef3',
+        '--card-bg': '#fff',
+        '--shadow': 'rgba(0, 0, 0, 0.1)'
+      },
+      dark: {
+        '--bg': '#121212',
+        '--text': '#f0f0f0',
+        '--header-bg': '#333333',
+        '--header-bg2': '#444444',
+        '--banner-bg': '#2c3e50',
+        '--banner-bg2': '#4ca1af',
+        '--primary': '#ff7043',
+        '--primary-hover': '#e64a19',
+        '--footer-bg': '#1e1e1e',
+        '--footer-bg2': '#2c2c2c',
+        '--card-bg': '#1e1e1e',
+        '--shadow': 'rgba(255, 255, 255, 0.05)'
+      }
+    };
+
+    const themeSelector = document.getElementById("themeSelector");
+    const root = document.documentElement;
+
+    function applyTheme(themeName) {
+      const theme = themes[themeName];
+      for (const varName in theme) {
+        root.style.setProperty(varName, theme[varName]);
+      }
+      localStorage.setItem("theme", themeName);
+    }
+
+    themeSelector.addEventListener("change", e => applyTheme(e.target.value));
+    const savedTheme = localStorage.getItem("theme") || "pastel";
+    themeSelector.value = savedTheme;
+    applyTheme(savedTheme);
+
+    window.addEventListener("scroll", () => {
+      document.getElementById("topBtn").style.display = window.scrollY > 300 ? "block" : "none";
+    });
+    document.getElementById("topBtn").onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+    renderProducts();
+  </script>
+</body>
+</html>
+<!-- END: Clothify Responsive -->
+
+
+
+
+
